@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[mathscr]{eucal}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{titling, soul, listings}
+\usepackage{interval}
+
+\newcommand{\qcolor}{Gray}
+\newcommand{\acolor}{Black}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+
+\DeclareMathOperator{\im}{im}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}	
+
+\setlength\droptitle{-17ex}
+
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\question}[1]{
+	%\setlength
+	\color{\qcolor} 
+	\item[#1~]}
+\newcommand{\answer}[0]{
+	%\setlength\parsep{1.5em}
+	\color{\acolor} 
+	\item[]}
+\newcommand{\nonitem}[1]{
+	\color{\qcolor}
+	\item[#1]}
+
+\newenvironment{exercise}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{Exercise #1}
+		
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+  \qed{}
+  \end{list}
+}
+
+\newenvironment{exercise*}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{#1}
+	
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+	\end{list}
+}
+
+\begin{document}
+
+\title{\Huge Topology and Groupoids, Chapter 3}
+\author{Brendan Murphy \ \textemdash\ \ 2019}
+\date{\vspace{-7ex}}
+
+\posttitle{\par\end{center}}\maketitle
+
+\begin{lemma}
+  Suppose $X$ can be written as the disjoint union of two connected nonempty subsets $C_1, C_2$. the only possible disconnection of $X$ is $(C_1, C_2)$.
+\end{lemma}
+\begin{proof}
+  Let $(A, B)$ be a disconnection of $X$. Let $x \in C_1$; then either $x \in A$ or $x \in B$.  W.l.o.g.\ suppose $x \in A$. We show $C_1 \subseteq A$ by contradiction. Suppose that for some $y \in C_1$, we had $y \in B$. Let $A' = A \cap C_1$ and $B' = B \cap C_1$. Then by assumption $x \in A'$ and $y \in B'$. But also $\overline{A'} \cap B' = \overline{(A \cap C_1)} \cap (B \cap C_1) \subseteq (\overline{A} \cap \overline{C_1}) \cap (B \cap C_1) = (\overline{A} \cap B) \cap \overline{C_1} = \emptyset$ since $(A, B)$ is a disconnection and thus $\overline{A} \cap B = \emptyset$. But also $$A' \cup B' = (A \cap C_1) \cup (B \cap C_1) = (A \cup B) \cap C_1 = X \cap C_1 = C_1$$
+  So since $x \in A'$ and $y \in B'$ we have that $(A', B')$ disconnects $C_1$, a contradiction. Thus $C_1 \subseteq A$. A similar argument shows $C_2 \subseteq B$. But then $$A = X \setminus B = (C_1 \cup C_2) \setminus B \subseteq (C_1 \cup C_2) \setminus C_2 = C_1 \setminus C_2 = C_1 \setminus (X \setminus C_1) = C_1$$
+  And since $A \subseteq C_1$ and $C_1 \subseteq A$, this implies $A = C_1$. Then $B = X\setminus A = X \setminus C_1 = C_2$, so $(C_1, C_2)$ is a disconnection of $X$.
+\end{proof}
+
+\begin{exercise}{3.5.13}
+  \question{} Let $X_n = \{n^{-1}\} \times [-n,n]$ and let $Y  = \R^2 \setminus \bigcup_{n\geq 1}X_n$. Prove that $Y$ is connected but not path connected.
+  \answer
+  We rewrite $Y = Y_1 \cup Y_2$ where $Y_1 = \interval[open left]{\leftarrow}{0} \times \R$ and $Y_2 = Y \setminus Y_1$. More explicitly, since $\bigcup_{n \geq 1} X_n$ doesn't intersect $Y_1$, we have
+  $$Y_2 = (\interval[open]{0}{\rightarrow} \times \R) \setminus \bigcup_{n \geq 1} X_n$$
+  Clearly $Y_1$ is connected, since it's homeomorphic to $\interval[open left]{\leftarrow}{0}$. We show that also $Y_2$ is path connected, and thus connected. Let $(a, b)$ be an element on $Y_2$; we give a path from $(a, b)$ to $(2, 0)$. Since $(a, b) \notin Y_1$, we have $a > 0$, so for some $N$ we have $a > \frac{1}{N}$. Let $p$ be defined by
+  $$p(t) = 
+  \begin{cases}
+    (a, b + 3t(N - b)) &\text{if } t \in [0, \frac{1}{3}] \\
+    (a + (3t - 1)(2 - a), N) &\text{if } t \in [\frac{1}{3},\frac{2}{3}] \\
+    (2, (3 - 3t)N) &\text{if } t \in [\frac{2}{3},1]
+  \end{cases}
+  $$
+  So that $p$ is a path which goes upwards or downards to a height of $N$ (and since $a > \frac{1}{N}$, any spike $X_n$ at or beyond $a$ has a height lower than $N$), then goes horizontally from $a$ to $2$ (if $a \geq 2$ then none of $X_n$ are in this part of the path; if $a < 2$ then we only go further right and the height of $N$ is higher than any $X_n$), then goes downwards to from $N$ to $0$ (which is safe since all spikes in $X_n$ are to the left of $2$). Thus $Y_2$ is path connected, and so connected.
+
+  Now suppose $Y$ were disconnected. Then by Lemma 1 it would be disconnected by $(Y_1, Y_2)$. We show that $(0,0)$ is in the closure of $Y_2$, and thus $Y_1 \cap \overline{Y_2}$ would be nonempty, so $Y$ would not be disconnected. Let $N$ be a neighborhood of $(0,0)$. Then for some $\varepsilon > 0$ we have $B((0,0), \varepsilon) \subseteq N$. But then for some natural number $K$ we have $\frac{1}{K} < \varepsilon$, so $\frac{1/K + 1/(K + 1)}{2} < \frac{1}{K} < \varepsilon$ and thus $\abs{(0, 0) - \left(\frac{1/K + 1/(K + 1)}{2}, 0\right)} = \frac{1/K + 1/(K + 1)}{2} < \varepsilon$ which means $\left(\frac{1/K + 1/(K + 1)}{2}, 0\right) \in B((0, 0), \varepsilon)$. But we have $0 < \frac{1}{K+1} < \frac{1/K + 1/(K + 1)}{2} < \frac{1}{K}$, and thus there is no $n$ such that $\left(\frac{1/K + 1/(K + 1)}{2}, 0\right) \in X_n$, which means $\left(\frac{1/K + 1/(K + 1)}{2}, 0\right) \in Y_2$. Thus $N$ meets $Y_2$ for any neighborhood $N$ of $(0,0)$, and thus $(0,0) \in \overline{Y_2}$. Thus $Y$ is connected.
+
+  We now show $Y$ is not path connected. If it were, there would be some path $p : [0, 1] \to Y$ such that $p(0) = (0,0)$ and $p(1) = (2,0)$. Let $p(t) = (p_1(t), p_2(t))$. Then by the intermediate value theorem, for any $n \in \N$ there is some $t_n$ such that $p_1(t_n) = \frac{1}{n}$. By the extreme value theorem, since $[0,1]$ is compact there is some $M$ such that $\abs{p_2(t)} < M$ for all $t \in [0,1]$. But there must be a natural number $K$ such that $M < K$, and since $p_1(t_K) = \frac{1}{K}$ and $p(t_K) \notin X_K$ we must have $p_2(t) \notin [-K, K]$. But this means $\abs{p_2(t)} \geq K > M$, a contradiction.
+\end{exercise}
+
+\end{document}

@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[mathscr]{eucal}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{titling, soul, listings}
+\usepackage{interval, enumitem}
+
+\newcommand{\qcolor}{Gray}
+\newcommand{\acolor}{Black}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+
+\DeclareMathOperator{\im}{im}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}	
+
+\setlength\droptitle{-17ex}
+
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\question}[1]{
+	%\setlength
+	\color{\qcolor} 
+	\item[#1~]}
+\newcommand{\answer}[0]{
+	%\setlength\parsep{1.5em}
+	\color{\acolor} 
+	\item[]}
+\newcommand{\nonitem}[1]{
+	\color{\qcolor}
+	\item[#1]}
+
+\newenvironment{exercise}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{Exercise #1}
+		
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+  \qed{}
+  \end{list}
+}
+
+\newenvironment{exercise*}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{#1}
+	
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+	\end{list}
+}
+
+\begin{document}
+
+\title{\Huge Topology and Groupoids, Chapter 4}
+\author{Brendan Murphy \ \textemdash\ \ 2019}
+\date{\vspace{-7ex}}
+
+\posttitle{\par\end{center}}\maketitle
+
+\begin{exercise}{4.2.3}
+  \question{} Prove that the following are identification maps
+  \question{(i)} The projections $X \times Y \to X$, $X \times Y \to Y$
+  \answer
+  Let $\pi : X \times Y \to X$ be the projection map. Clearly this is a surjective map, and so by 4.2.4 it suffices to show it is open. Let $U$ be an open set of $X \times Y$. Then $U = \bigcup_{\lambda \in L} U_{\lambda} \times V_{\lambda}$ for some family $\{U_{\lambda}\}_{\lambda \in L}$ of open sets in $X$ and $\{V_{\lambda}\}_{\lambda \in L}$ of open sets in $Y$, and thus $$\pi(U) = \pi\left(\bigcup_{\lambda \in L} U_{\lambda} \times V_{\lambda}\right) = \bigcup_{\lambda \in L} U_{\lambda}$$
+  Is the union of open sets of $X$, and thus open.
+\end{exercise}
+
+\begin{exercise}{4.2.5}
+  \question{} Let $X, Y$ be topological spaces and $f : X \to Y$ a continuous surjection. Suppose that each point $y$ in $Y$ has a neighbourhood $N$ such that $f| f^{-1}[N], N$ is an identification map. Prove that f is an identification map.
+  \answer
+  For each $y \in Y$, there is some neghborhood $N_y$ of $y$ such that the restriction $f_y : f^{-1}[N_y] \to N_y$ of $f$ is an identification map. Then if $U$ is such that $f^{-1}[U]$ is open in $X$, we see first that
+  $$U = \bigcup_{y \in U} (N_y \cap U)$$
+  The inclusion $\bigcup_{y \in U} (N_y \cap U) \subseteq U$ holds since $\bigcup_{y \in U} (N_y \cap U) = \left(\bigcup_{y \in U} N_y \right) \cap U \subseteq U$. The other inclusion holds since $U = \bigcup_{y \in U} \{y\}$ and $\{y\} \subseteq N_y \cap U$ for any $y \in U$. Thus
+  $$f^{-1}[U] = f^{-1}\left[\bigcup_{y \in U} (N_y \cap U)\right] = \bigcup_{y \in U} (f^{-1}[N_y \cap U])$$
+  Then we see $f^{-1}[N_y \cap U] = f^{-1}[N_y] \cap f^{-1}[U]$, and thus $f^{-1}[N_y \cap U]$ is open in $f^{-1}[N_y]$ for any $y \in U$. But also $f^{-1}[N_y \cap U] \subseteq f^{-1}[N_y]$, so $f^{-1}[N_y \cap U] = f_y^{-1}[N_y \cap U]$, and since $f_y$ is an identification map and $f^{-1}[N_y \cap U]$ is open in $f^{-1}[N_y]$ this implies $N_y \cap U$ is open in $N_y$ for any $y \in U$. Thus for any $y \in U$ there's an open set $M_y$ in $Y$ such that $N_y \cap U = N_y \cap M_y$. But also since $N_y$ is a neighborhood of $y$, there's some open set $O_y$ containing $y$ contained in $N_y$, so $O_y \cap M_y \subseteq N_y \cap U$, and also $O_y \cap M_y$ is open in $Y$ for any $y \in U$ since it's the intersection of two open sets. Thus
+  $$\bigcup_{y \in U} (O_y \cap M_y) \subseteq \bigcup_{y \in U} (N_y \cap U) = U$$
+  And also for any $y \in U$, we must have $y \in O_y \cap M_y$, and thus
+  $$U \subseteq \bigcup_{y \in U} (O_y \cap M_y)$$
+  Which means $U = \bigcup_{y \in U} (O_y \cap M_y)$ is a union of open sets, and thus open.
+
+  Thus $f^{-1}[U]$ being open implies $U$ is open, and by assumption $f$ is surjective and continuous, so $f$ is an identification map.
+\end{exercise}
+
+\begin{exercise}{4.2.6}
+  \question{} Let $A$ be a subspace of $X$. A retraction of $X$ onto $A$ is a map $r : X \to A$ such that $r$ is the identity on $A$. Prove that a retraction of $X$ onto $A$ is an identification map.
+  \answer
+  Suppose $U \subseteq A$ is some set such that $r^{-1}[U]$ is open. Then $r^{-1}[U] \cap A$ is open in $A$, and
+  $$r^{-1}[U] \cap A = \{ x \in X : r(x) \in U, x \in A \} = \{ x \in A : r(x) \in U \} = \{ x \in A : x \in U \} = U$$
+  Since $r$ is the identity on $A$. Thus $U$ is open in $A$, and $r$ is surjective since $r(A) = A$, which means $r$ is an identification map.
+\end{exercise}
+
+\begin{exercise}{4.2.8}
+  \question{} Let $f : X \to Y$ be an identification map. For each $A \subseteq X$, let
+  $$f^\dagger [A] = \{ a \in A : f^{-1}[f(a)] \subseteq A \}$$
+  Prove that the following conditions are equivalent.
+  \begin{enumerate}[label=(\roman*)]
+  \item $f$ is a closed map.
+  \item If $A$ is closed in $X$, then also is $f^{-1}[f[A]]$.
+  \item If $A$ is open in $X$, then so also is $f^\dagger [A]$.
+  \item For each $y$ in $Y$, every neighbourhood $N$ of $f^{-1}(y)$ contains a saturated neighbourhood of $f^{-1}(y)$.
+  \end{enumerate}
+  \answer
+  If $A$ is a closed set and $f$ is a closed and continuous function then $f[A]$ is closed by closedness of $f$ and $f^{-1}[f[A]]$ is closed by continuity of $f$. Thus (i) implies (ii).
+
+  Now assume (ii). We see
+  \begin{align*}
+    f^{-1}[f[X \setminus A]] &= \{ x \in X : f(x) \in f[X \setminus A] \} \\
+                             &= \{ x \in X : \exists y \notin A.\ f(x) = f(y) \} \\
+                             &= \{ x \in X : f^{-1}[f(x)] \text{ isn't a subset of } A \} \\
+                             &= X \setminus f^\dagger [A]
+  \end{align*}
+  Thus if $A$ is open, then $X \setminus A$ is closed, so $f^{-1}[f[X \setminus A]]$ is closed, and thus $f^\dagger [A]$ is open.
+
+  Now assume (iii). Then for any $y \in Y$ and any neighborhood $N$ of $f^{-1}(y)$ in $X$, there is some open set $O$ containing $f^{-1}(y)$ contained in $N$, and thus $f^{\dagger}[O]$ is an open set contained in $N$ as well. Further $f^{-1}(y) \subseteq f^{\dagger}[O]$ since $f^{-1}(y) \subseteq O$ and $f^{-1}[f(b)] = f^{-1}[y] \subseteq O$ for any $b \in f^{-1}(y)$. We show $f^{\dagger}[O]$ is saturated. By definition, this holds if $f^{-1}[f[f^{\dagger}[O]]] = f^{\dagger}[O]$. But But if $x \in f^{-1}[f[f^{\dagger}[O]]]$, then $f(x) \in f[f^{\dagger}[O]]$, so there's some $t \in f^{\dagger}[O]$ such that $f(x) = f(t)$. But $t \in f^{\dagger}[O]$ means $f^{-1}[f(t)] \subseteq O$, and $x \in f^{-1}[f(t)]$ so $x \in O$, and $f^{-1}[f(x)] = f^{-1}[f(t)] \subseteq O$ so $x \in f^{\dagger[O]}$. Then the inclusion $f^{\dagger}[O] \subseteq f^{-1}[f[f^{\dagger}[O]]]$ holds trivially, so $f^{\dagger}[O] = f^{-1}[f[f^{\dagger}[O]]]$ and thus $f^{\dagger}[O]$ is saturated. Thus (iv) holds. 
+
+  Finally assume (iv) holds. Then assume $K$ is some closed subset of $X$. We show $f[K]$ is closed. Suppose $y$ is some element of $Y$ such that every neighborhood of $y$ meets $f[K]$. 
+\end{exercise}
+
+\end{document}

@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[mathscr]{eucal}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{titling, soul, listings}
+\usepackage{interval}
+
+\newcommand{\qcolor}{Gray}
+\newcommand{\acolor}{Black}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\asin}{asin}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}	
+
+\setlength\droptitle{-17ex}
+
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\question}[1]{
+	%\setlength
+	\color{\qcolor} 
+	\item[#1~]}
+\newcommand{\answer}[0]{
+	%\setlength\parsep{1.5em}
+	\color{\acolor} 
+	\item[]}
+\newcommand{\nonitem}[1]{
+	\color{\qcolor}
+	\item[#1]}
+
+\newenvironment{exercise}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{Exercise #1}
+		
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+  \qed{}
+  \end{list}
+}
+
+\newenvironment{exercise*}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{#1}
+	
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+	\end{list}
+}
+
+\begin{document}
+
+\title{\Huge Topology Independent Study, Week 1}
+\author{Brendan Murphy \ \textemdash\ \ 2019}
+\date{\vspace{-7ex}}
+
+\posttitle{\par\end{center}}\maketitle
+
+\begin{exercise}{1}
+  \question{} Is $\Q$ locally compact?
+  \answer
+  $\Q$ is not locally compact. In fact, no neighborhood in $\Q$ can be compact. Let $x$ be a rational and $K$ a compact neighborhood of $x$. Then since $K$ is a neighborhood of $x$, it contains some rational ball centered about $x$, i.e. $(x-\varepsilon, x+\varepsilon) \cap \Q \subseteq K$ for some $\varepsilon$. By density of the irrationals, we must have $[a, b] \subseteq (x - \varepsilon, x + \varepsilon)$ for some irrational $a, b$. Define $V = K\setminus [a, b]$ and
+  $$U_n = \left(a + \frac{1}{k}\cdot \left(\frac{a+b}{2} - a\right), b - \frac{1}{k}\cdot \left(b - \frac{a+b}{2}\right)\right)$$
+  So that $U_n$ expands out from the midpoint of $[a, b]$ and fills out all of $[a, b]$ except the endpoints. Then $\{V\} \cup \{ U_n \cap \Q : n \in \N \}$ is an open cover of $K \setminus \{a,b\}$. Since $a$ and $b$ are irrational and $K$ is a subset of the rationals, $K \setminus \{a,b\} = K$. But any finite subcover of $\{V\} \cup \{ U_n \cap \Q : n \in \N \}$ will have a highest $N$ such that it contains $U_N \cap \Q$, and then this subcover will miss $a + \frac{1}{N}\left(\frac{a+b}{2} - a\right)$, so there is no finite subcover of $\{V\} \cup \{ U_n \cap \Q : n \in \N \}$, contradicting our assumption $K$ was compact.
+\end{exercise}
+
+\begin{exercise}{3.6.4}
+  \question{} Let $X$ be the unit interval with the following topology: the neighborhoods of any nonzero points are as usual, and the neighborhoods of $0$ are the usual ones as well as $N \setminus \{ x_0, x_1, \ldots \}$ for any sequence of nonzero points $\{x_n\}$ converging to 0. Show $X$ is not a $k$-space. 
+  \answer
+  We prove that if $K$ is any nonempty compact subset of $X$, then $\inf \{ x \in K : x \neq 0 \} > 0$. Let $K$ be a nonempty set such that $\inf \{ x \in K : x \neq 0 \} = 0$. Then there is a sequence $x_n \neq 0$ in $K$ converging to $0$. Let $A_k = \{ x_n : n \geq k \}$. Then define $U_k = [0,1] \setminus A_k$. We show that $U_k$ is open for any $k$. Let $a$ be any point of $U$. If $a = 0$, then since $[0,1]$ is a neighborhood of $0$ in the standard topology and $x_n \to 0$ (no matter how many initial terms you remove), $U_k$ is a neighborhood of $0$. If $a \neq 0$, then $x_n \not \to a$, so there's a distance $\delta$ such that $\abs{a - x_n} \geq \delta$ for all $n$. Then $(a-\delta, a+\delta)$ is a neighborhood of $a$ contained in $U_k$, so $U_k$ is a neighborhood of $a$. Thus all $U_k$ are open, so $\{ U_k : k \in \N \}$ is an open cover of $K$ (since it is an open cover of $[0, 1]$), and any finite subcover will miss infinitely many points in the sequence $x_k$ (there's no issue with having infinitely many duplicate terms that have been added in, since $x_n \to 0$ but $x_n \neq 0$ for all $n$).
+
+  We now show that for any such $K$, $K \setminus \{0\}$ is compact. Let $\varepsilon$ be such that $\varepsilon < x$ for all $x \in K \setminus \{0\}$, which exists by the above. Let $U = [0, \varepsilon)$, so that $U$ is an open set containing $0$ but disjoint from $K\setminus \{0\}$. Then for any open cover $\mathscr{U}$ of $K \setminus \{0\}$, we can add in $U$ to get an open cover of $K$, then refine this to a finite open subcover $\mathscr{F}$ of $K$, and since $U$ is disjoint from $K \setminus \{0\}$, the set $\mathscr{F} \setminus \{ U \}$ forms a cover of $K \setminus \{0\}$ and is clearly a subcover of $\mathscr{U}$. Thus the result holds.
+
+  But any compact subset is also a compact subspace, and the subspace topology on $K \setminus \{0\}$ inhereted from $X$ coincides with the subspace topology that it would normally inherent from $[0, 1]$, since the neighborhoods of points away from $0$ are as they are usually. Thus $K\setminus \{0\}$ is a compact subspace of $[0,1]$ under the usual topology, and thus is closed under that usual topology. But by the same remark about neighborhoods away from $0$ be as they usually are, this shows $K \setminus \{0\}$ is a closed subset of $X$.
+
+  We now show $X$ is not a $k$-space. Let $A = (0, 1]$. Then $A$ is not closed, since its complement $\{0\}$ is not open. If $\{0\}$ were open, it would be a neighborhood of $0$, but all neighborhoods of $0$ are uncountable (since they contain an interval $[0, \delta)$ possibly minus a countable number of points). Thus $A$ is a nonclosed space. But for any compact subset $K$ of $X$, either $K = \emptyset$, and so $A \cap K = \emptyset$ is trivially closed in $K$, or $A \cap K = K \setminus \{0\} = (K \setminus \{0\}) \cap K$ is a closed subset of $K$ as remarked above.
+\end{exercise}
+
+\begin{exercise}{4.3.2}
+  \question{} Let $f : \R \to [-1, 1]$ be
+  $$f(x) = \begin{cases}
+    \sin(1/x) &\text{if } x \neq 0 \\
+    0 &\text{if } x = 0
+  \end{cases}$$
+  and give $[-1,1]$ the identification topology with respect to $f$. Prove that $[-1, 1] \setminus \{0\}$ under the subspace topology is as usual, but that the only neighborhood of $0$ is the entire space.
+  \answer
+  By 4.3.1, to show that $[-1, 1] \setminus \{0\}$ is as usual under the subspace topology it suffices to show that $[-1, 1] \setminus \{0\}$ is as usual under the identification topology with respect to the restricton $g(x) = \sin(1/x)$ of $f$ to $f^{-1}([-1, 1] \setminus \{0\})$. But  $g$ is continuous, so automatically the implication ``$U$ is open in the standard topology on $[-1, 1] \setminus \{0\}$'' implies ``$g^{-1}(U)$ is open in $f^{-1}([-1, 1] \setminus \{0\})$''. Now suppose $U$ is not open; we show that its preimage is also not open. If $U$ is not open, there's some point $x \in U$ such that $U$ doesn't contain any neighborhood of $x$, i.e.\ for all $\varepsilon > 0$ there's some $y \in [-1, 1] \setminus \{0\}$ such that $y \notin U$ and $\abs{x - y} < \varepsilon$. {\color{red} UNFINISHED} 
+
+  Now suppose $U$ is an open set containing $0$. Then $f^{-1}(U)$ is open in $\R$, and so for all $x \in \R$ such that $f(x) = 0$, there is some $\varepsilon > 0$ such that $(x - \varepsilon, x + \varepsilon)$ is in $f^{-1}(U)$. In particular, for $x = 0$ we have that $f^{-1}(U)$ contains $(-\varepsilon, \varepsilon)$. But by making $K$ big enough, the reciprocal of all points in $[2 \pi K, 2\pi(K+1)]$ lies within that small interval, and so $[-1, 1] = f([2 \pi K, 2\pi(K+1)]) \subseteq f(f^{-1}(U)) \subseteq U \subseteq [-1, 1]$, which shows $U = [-1, 1]$. Any neighborhood of $0$ must contain an open set containing $0$, so this shows any neighborhood of $0$ is the whole space.
+\end{exercise}
+
+\begin{lemma}
+  Suppose $A$ is closed. Then the projection map $\pi : X \to X/A$ is closed. The same holds when ``closed'' is replaced with open, and the proof is identical.
+\end{lemma}
+\begin{proof}
+  Let $C$ be a closed subset of $X$. Then if $C$ is disjoint from $A$, we have $\pi(C) = C$ and $\pi^{-1}(\pi(C)) = \pi^{-1}(C) = C$, so the preimage of $\pi(C)$ is closed in $X$, and thus $\pi(C)$ is closed in $X/A$. Otherwise $C\cap A$ is nonempty, and so
+  $$\pi(C) = \pi((C \setminus A) \cup (C \cap A)) = \pi(C \setminus A) \cup \pi(C \cap A) = (C\setminus A) \cup \{A\}$$
+  Then $\pi(C)$ is closed in $X/A$, as
+  $$\pi^{-1}(\pi(C)) = \pi^{-1}((C\setminus A) \cup \{A\}) = \pi^{-1}(C\setminus A) \cup \pi^{-1}(\{A\}) = (C\setminus A) \cup A = C \cup A$$
+  and so the preimage of $\pi(C)$ is the union of two closed sets, and is thus closed.
+\end{proof}
+
+\begin{lemma}
+  Let $A$ be a subset of $X$ and suppose $B$ is a subset of $X$ containing $A$. Then for any $Q \subseteq A$, if $\pi :  X \to X/A$ is the projection map then
+  $$\pi(Q \cap B) = \pi(Q) \cap \pi(B)$$
+\end{lemma}
+\begin{proof}
+  Either $A$ and $Q$ are disjoint or they are not. If they are, then $Q \cap B = Q \cap (B\setminus A)$, and $\pi$ is injective when restricted to $X \setminus A$ so
+  $$\pi(Q \cap B) = \pi(Q \cap (B\setminus A)) = \pi(Q) \cap \pi(B \setminus A) = Q \cap (B \setminus A)$$
+  But also
+  $$\pi(Q) \cap \pi(B) = Q \cap (B \setminus A \cup \{A\}) = (Q \cap (B \setminus A)) \cup (Q \cap \{A\}) = Q \cap (B \setminus A)$$
+  So $\pi(Q \cap B) = \pi(Q) \cap \pi(B)$.
+  If $Q$ and $A$ are not disjoint, then $Q \cap B = ((Q \setminus A) \cap B) \cup (Q \cap A)$, and so
+  $$\pi(Q \cap B) = \pi((Q \setminus A) \cap B) \cup \pi(Q \cap A) = ((Q \setminus A) \cap B) \cup \{A\}$$
+  But also
+  $$\pi(Q) \cap \pi(B) = ((Q \setminus A) \cup \{A\}) \cap ((B \setminus A) \cup \{A\}) = (Q \setminus A \cap B \setminus A) \cup \{A\} = ((Q \setminus A) \cap B) \cup \{A\}$$
+  Thus the result holds.
+\end{proof}
+
+\begin{exercise}{4.3.3}
+  \question{} Let $A, B$ be subsets of $X$ and suppose $A \subseteq B$ and $A$ is closed. Prove $B/A$ is a subspace of $X/A$.
+  \answer
+  Let $\pi : X \to X/A$ be the quotient map. It suffices to show that for any $C$, $C$ is closed in the subspace topology on $B/A$ iff it is closed in the identification topology. Suppose $C$ is closed in the subspace topology on $B/A$. Then $C = C' \cap (B/A)$ for some $C'$ closed in $X/A$. This means $\pi^{-1}(C')$ is closed in $X$. But this means
+  $$\pi^{-1}(C) = \pi^{-1}(C' \cap (B/A)) = \pi^{-1}(C') \cap \pi^{-1}(B/A) = \pi^{-1}(C') \cap B$$
+  Is closed in $B$, as it is the intersection of a closed set of $X$ and $B$.
+
+  Now suppose $C$ is closed in the identification topology on $B/A$. Then $\pi^{-1}(C)$ is closed in $B$, and so $\pi^{-1}(C) = C' \cap B$ for some $C'$ closed in $X$. Then by Lemma 2,
+  $$\pi(\pi^{-1}(C)) = \pi(C') \cap \pi(B) = \pi(C') \cap (B/A)$$
+  And by Lemma 1, $\pi(C')$ is a closed map, which means $\pi(C')$ is closed, and so $\pi(\pi^{-1}(C))$ is closed in the subspace topology on $B/A$. But also $\pi$ is surjective, and so $\pi(\pi^{-1}(C)) = C$, so $C$ is closed in the subspace topology on $B/A$.
+
+  Thus the identification and subspace topologies on $B/A$ have the same closed sets, and are thus the same.
+\end{exercise}
+
+\begin{exercise}{4.3.4}
+  \question{} Let $A$ be a subset of $X$. Prove that $X \setminus A$ is a subspace of $X/A$ if and only if the following condition holds: a subset $U$ of $X\setminus A$ is open in $X\setminus A$ if and only if $U = V \cap (X\setminus A)$ where $V$ is open in $X$ and $V$ either contains or is disjoint from $A$.
+  \answer
+  A set $V$ is either disjoint from $A$ or is contained in $A$ iff $V$ is $\pi$-satured. If $V$ is disjoint from $A$, then immediately $\pi^{-1}(\pi(V)) = V$ since $\pi$ is a the identity on $X\setminus A$ and $(X/A)\setminus \{A\}$. If $A \subseteq V$, then $\pi(V) = (V\setminus A) \cup \{A\}$ and so
+  $$\pi^{-1}(\pi(V)) = \pi^{-1}((V\setminus A) \cup \{A\}) = \pi^{-1}(V \setminus A) \cup \pi^{-1}(\{A\}) = (V \setminus A) \cup A = V$$
+  Where this last equality holds since $A \subseteq V$. Now if $\pi^{-1}(\pi(V))$, either $V$ and $A$ are disjoint or they share some point $a$. In this second case,
+  $$\pi(V) = \pi((V \setminus \{a\}) \cup \{a\}) = \pi(V \setminus \{a\}) \cup \{A\}$$
+  And so
+  $$A = \pi^{-1}(\{A\}) \subseteq \pi^{-1}(\pi(V \setminus \{a\})) \cup \pi^{-1}(\{A\}) = \pi^{-1}(\pi(V \setminus \{a\}) \cup \{A\}) = \pi^{-1}(\pi(V)) = V$$
+  Thus it suffices to show $X \setminus A$ is a subspace of $X/A$ if and only if the condition ``a subset $U$ of $X\setminus A$ is open in $X\setminus A$ iff $U = V \cap (X\setminus A)$ where $V$ is open in $X$ and $\pi$-satured'' holds. Now let $\pi' = \pi\downharpoonright_{X\setminus A,X\setminus A}$ be the restriction of $\pi$ to our subset of interest. Since $\pi'$ is the identity, every open subset of $X\setminus A$ is $\pi'$-saturated, and thus by 4.3.1 we have that $\pi'$ is an identification map iff every open set of $X\setminus A$ is the intersection of $X\setminus A$ and an open, $\pi$-satured set of $X$. Since it is tautological that the intersection of an open, $\pi$-satured set of $X$ and $X\setminus A$ is open in $X\setminus A$, this means that the condition ``a subset $U$ of $X\setminus A$ is open in $X\setminus A$ iff $U = V \cap (X\setminus A)$ where $V$ is open in $X$ and $\pi$-satured'' is in fact equivalent to just saying $\pi'$ is an identification map. 
+
+  %This is to say that the map $x \mapsto x$ from $X\setminus A$ with the subspace topology inherited from $X$ to $X\setminus A$ with the subspace topology inherited from $X/A$ is an identification map. But by definition, this means the subspace topology inherited from $X$ is finer than that inherited from $X\setminus A$. Thus the condition we wish to prove is that $X \setminus A$ is a subspace of $X/A$ if and only if the topology on $X \setminus A$ is finer than that inherited from $X/A$.
+x
+  {\color{red} This fails?? \\
+  Thus it is sufficient to show that the topology inherited from $X/A$ is finer than that from $X$, i.e.\ that any open set in the subspace topology inherited from $X$ is open in the subspace topology inherited from $X/A$. Let $U$ be open in $X\setminus A$. Then $U = V \cap (X \setminus A)$ for some $V$ open in $X$. Clearly $U = \pi(V) \cap (X\setminus A)$, since anything changed in $V$ by $\pi$ falls in $A$, and so it suffices to show $\pi(V)$ is open. This is obvious when $V$ does not meet $A$, since then $\pi^{-1}(\pi(V)) = \pi^{-1}(V) = V$, and if $V$ meets $A$ then
+  $$\pi^{-1}(\pi(V)) = \pi^{-1}((V \setminus A) \cup \{A\}) = (V \setminus A) \cup A$$}
+  \question{} Give an example of $X, A$ for which this condition holds, yet $A$ is neither open nor closed in $X$. Give an example of $X, A$ for which this does not hold.
+  \answer
+  For the first part, let $X$ be a two point indiscrete space and $A$ a set of one of the points.\\
+  For the second, let $X = \R$ and $A = \Q$. Then the set $U = \{ x \in \interval[open]{0}{1} : x \text{ is irrational} \}$ is open in $\R\setminus \Q$, but cannot be written as $V \cap (\R\setminus \Q)$ for any open $V$ which is either disjoint from or contains $\Q$, since the only open set containing $\Q$ is $\R$, and $U \neq \R \setminus \Q$, and any open set $V$ must have some rational point by density.
+\end{exercise}
+
+\begin{exercise}{4.3.5}
+  \question{} Let $A$ be a subspace of $X$. Prove that $X/A$ is Hausdorff if (i) $X \setminus A$ is Hausdorff, (ii) $X \setminus A$ is a subspace of $X/A$, and (iii) if $x \in X \setminus A$ then $x$ and $A$ have disjoint neighbourhoods in $X$.
+  \answer
+
+  \question{} Prove that if $X = [0, 2]$, $A = \interval[open]{1}{2}$, then $X/A$ is not Hausdorff.
+  \answer
+  
+\end{exercise}
+
+\begin{exercise}{4.3.6}
+  \question{} Let $A$ be a closed subset of $X$ and let $B$ be a proper subset of $A$. Let $X' = X \ B$, $A' = A \setminus B$. Prove that $X'/A'$ is homeomorphic to $X/A$.
+  \answer
+  
+\end{exercise}
+
+\end{document}

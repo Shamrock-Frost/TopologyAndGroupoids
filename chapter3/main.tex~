@@ -1,0 +1,133 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[mathscr]{eucal}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{titling, soul, listings}
+
+\newcommand{\qcolor}{Gray}
+\newcommand{\acolor}{Black}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\im}{im}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}	
+
+\setlength\droptitle{-17ex}
+
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\question}[1]{
+	%\setlength
+	\color{\qcolor} 
+	\item[#1~]}
+\newcommand{\answer}[0]{
+	%\setlength\parsep{1.5em}
+	\color{\acolor} 
+	\item[]}
+\newcommand{\nonitem}[1]{
+	\color{\qcolor}
+	\item[#1]}
+
+\newenvironment{exercise}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{Exercise #1}
+		
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+  \qed{}
+  \end{list}
+}
+
+\newenvironment{exercise*}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{#1}
+	
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+	\end{list}
+}
+
+\begin{document}
+
+\title{\Huge Math 398 Homework 4}
+\author{Brendan Murphy \ \textemdash\ \ Nov 29, 2018}
+\date{\vspace{-7ex}}
+
+\posttitle{\par\end{center}}\maketitle
+
+\begin{lemma}
+  For any group $G$ and normal subgroup $H$ of $G$, and for any subgroup $N$ of $G/H$, there is some subgroup $K$ of $G$ such that $N \simeq K/H$.
+\end{lemma}
+\begin{proof}
+  Let $A = \{ g \in G : gH \in N \} = \pi^{-1}(N)$. Then $A$ is a subgroup of $G$ since the preimage of a subgroup is a subgroup. Let $K = AH$. By the second isomorphism theorem, $K$ is a subgroup of $G$ and $H$ is normal in $K$, and $K/H \simeq A/(H \cap A)$, so it suffices to show $A/(H \cap A) \simeq N$. Let $\varphi : A \to N$ be $\varphi(g) = \pi(g) = gH$. Since $\pi$ is surjective, $\pi(A) = \pi(\pi^{-1}(N)) = N$, so $\varphi$ is surjective, and thus by the first isomorphism theorem $A/\ker \varphi \simeq N$. Thus it suffices to show $\ker \varphi = H \cap A$. But
+  $$\ker \varphi = \{ g \in A : \varphi(g) = e_{G/H} \} = \{ g \in A : gH = H \} = \{ g\in A : g \in H \} = H \cap A$$
+  And thus $K/H \simeq A/(H \cap A) = A/\ker \varphi \simeq \im \varphi = N$ as desired.
+\end{proof}
+
+\begin{exercise}{2}
+  \question{} Let $G$ be a group and let $H$ be a subgroup of $G$ of finite index $n$. Construct a homomorphism $G \to S_n$ with kernel contained in $H$.
+  \answer
+  Since $[G : H] = n$, the set $G/H$ of left-cosets of $H$ in $G$ has size $n$. But this means $S_n \simeq \Aut_{\mathsf{Set}}(G/H)$, so it suffices to give a map $\sigma : G \to \Aut_{\mathsf{Set}}(G/H)$. Let $\sigma(g) = (xH) \mapsto (gx)H$. This is well defined as a set function since $(xH) \mapsto (gx)H$ has inverse $(xH) \mapsto (g^{-1}x)H$. Then for any $a, b \in G$ and $xH \in G/H$, we see
+  $$\sigma(ab)(xH) = ((ab)x)H = (a(bx))H = \sigma(a)((bx)H) = \sigma(a)(\sigma(b)(xH))$$
+  So $\sigma(ab) = \sigma(a) \circ \sigma(b)$, and thus $\sigma$ is a homomorphism. Now suppose $k \in \ker \sigma$. Then $\sigma(k) = id_{G/H}$, and in particular $kH = \sigma(k)(H) = id_{G/H}(H) = H$, so $k \in H$. Thus $\ker \sigma \subseteq H$.
+  \question{(a)} Show that every subgroup of G of index 2 is normal.
+  \answer
+  Let $\sigma$ be as above. Then $G/\ker \sigma \simeq \im \sigma$ is a subgroup of $S_2$, so
+  $$|\im \sigma| = [G : \ker \sigma] = [G : H][H : \ker \sigma] = 2[H : \ker \sigma]$$
+  Is at most $2$. But this means $[H : \ker \sigma] = 1$, so $H = \ker \sigma$ is normal as it is a kernel.
+  
+  \question{(b)} Show that if $G$ has a non-normal subgroup of index $3$ then $G$ has a normal subgroup of index $2$.
+  \answer
+  Suppose $H$ is a non-normal subgroup of $G$ and $[G : H] = 3$. Let $\sigma$ be as above. Since $H$ isn't normal, it isn't the kernel of any map, and in particular it isn't the kernel of $\sigma$. Thus there is some $h \in H$ such that $\sigma(h) \neq id_{G/H}$, and thus some $xH \in G / H$ such that $(hx)H = \sigma(h)(xH) \neq id_{G/h}(xH) = xH$. But also $xH \neq H$ since this would imply $x \in H$ and thus $hx \in H$, so $hxH = H = xH$. Additionally $hxH \neq H$, since then $hx \in H$ and so $x = h^{-1}(hx) \in H$, thus $xH = H$. Thus we've enumerated $G/H$ as $\{H, xH, hxH\}$. It's clear that $\sigma(h)(H) = hH = H$ and $\sigma(xH) = hxH$, and since $\sigma(h)$ is an automorphism this means $(h^2x)H = \sigma(h)(hxH) = xH$. Thus $\sigma(h)$ swaps the two nontrivial cosets of $H$, and so $\sigma(h)^2 = \sigma(h^2) = id_{G/H}$, which implies $h^2 \in \ker\sigma$. Thus $\{\ker\sigma, h(\ker\sigma)\}$ is a subgroup of $G/\ker \sigma$, so $[G : \ker \sigma] = |G/\ker \sigma|$ is divisible by $2$. But also $[G : \ker \sigma] = [G : H][H : \ker \sigma] = 3[H : \ker \sigma]$, so $[G : \ker \sigma]$ is divisible by $3$ as well, and thus by $6$. But by the first isomorphism theorem, $G/\ker \sigma \simeq \im \sigma$, and $\im \sigma$ is a subgroup of $S_3$, so $[G : \ker \sigma] = |\im \sigma|$ divides $6$. Thus $[G : \ker \sigma] = 6$, and so $G/\ker\sigma \simeq S_3$. But this means $G/\ker\sigma$ has a normal subgroup $N$ of order $3$, and thus by Lemma 1, there's a subgroup $K$ of $G$ such that $N \simeq K/\ker\sigma$. But since $N$ is normal, we can apply the third isomorphism theorem to find that $K$ is normal, and in fact $\frac{G}{K} \simeq \frac{G/\ker\sigma}{K/\ker\sigma}$ so $[G : K] = \frac{[G : \ker\sigma]}{[K : \ker\sigma]} = \frac{6}{3} = 2$.
+  \question{(c)} Show that if $G$ has a subgroup of index $4$ then $G$ has a normal subgroup of index $2$ or $3$.
+  \answer
+  Suppose $H$ is a subgroup of $G$ and $[G : H] = 4$. Let $\sigma : G \to S_4$ be as above. Then as above $G/\ker \sigma \simeq \im \sigma$, so it suffices to show $\im \sigma$ has a subgroup of index $2$ or $3$. We have $|\im \sigma| = [G : \ker \sigma] = [G : H][H : \ker \sigma] = 4[H : \ker \sigma]$ so $4$ must be a factor of $|\im \sigma|$. Thus $|\im \sigma| = 4, 6, 8, 12,$ or $24$. By case-checking, the result holds.
+\end{exercise}
+
+\begin{exercise}{3}
+  \question{} Let $G$ be a finite group and let $p$ be the smallest prime dividing the order of $G$.
+  \question{(a)} Show that every subgroup of $G$ of index $p$ is normal.
+  \answer
+  Let $H$ be a subgroup of $G$ of index $p$. By the same logic as the above, there's a map $\sigma : G \to S_p$ with kernel contained in $H$. Then $|G| = [G : \ker \sigma]|\ker \sigma|$, so $[G : \ker \sigma]$ divides $|G|$. But since $p$ is the smallest prime dividing $|G|$, this means $[G : \ker \sigma]$ is not divisible by any primes smaller than $p$. But also $[G : \ker \sigma] = |\im \sigma|$ divides $|S_p| = p!$. But any number greater than one but less than $p$ contains a prime factor less than $p$, and so does not divide $|\im \sigma|$. Thus $[G : \ker \sigma] = |\im \sigma| = 1$ or $p$. If $[G : \ker \sigma] = 1$, then $G = \ker \sigma \leq H \leq G$, so $H = G$ is trivially normal in $G$. If $[G : \ker \sigma] = p$, then also $[G : \ker \sigma] = [G : H][H : \ker \sigma] = p[H : \ker \sigma]$, so $[H : \ker \sigma] = 1$ and thus $H = \ker \sigma$. But all kernels are normal, so $H$ is normal.
+  \question{(b)} Show that every normal subgroup of $G$ of order $p$ is central.
+  \answer
+  Let $H$ be a subgroup of $G$ of order $p$. Then $H \simeq \Z/p\Z$ since the order of any nontrivial element of $H$ divides $|H| = p$, and thus is $p$, and thus generates $H$. But this means $\Aut(H) \simeq (\Z/p\Z)^\times \simeq C_{p-1}$. And by Exercise 1d from last week, there's a morphism $\varphi : N_G(H) \to \Aut(H)$ with kernel $C_G(H)$. But $H$ is normal so $N_G(H) = G$, and as we remarked $\Aut(H) \simeq C_{p-1}$, so relabel $\varphi$ by $\varphi : G \to C_{p-1}$. For any $g \in G$, the order of $\varphi(g)$ must divide both $p - 1$ and $|g|$. But if $\varphi(g)$ divides $p - 1$, all of its prime factors must be less than $p$, and if it divides $|g|$ it divides $|G|$ so its least prime factor must be $p$. Thus $|\varphi(g)|$ has no prime factors, and thus is one. But this implies $\varphi(g) = e$, and $g$ was arbitrary so $\ker \varphi = G$. But also $\ker\varphi = C_G(H)$ so $G = C_G(H)$ and thus $H$ is central.
+\end{exercise}
+
+\end{document}

@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[mathscr]{eucal}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{titling, soul, listings}
+\usepackage{interval}
+
+\newcommand{\qcolor}{Gray}
+\newcommand{\acolor}{Black}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\asin}{asin}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}	
+
+\setlength\droptitle{-17ex}
+
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\question}[1]{
+	%\setlength
+	\color{\qcolor} 
+	\item[#1~]}
+\newcommand{\answer}[0]{
+	%\setlength\parsep{1.5em}
+	\color{\acolor} 
+	\item[]}
+\newcommand{\nonitem}[1]{
+	\color{\qcolor}
+	\item[#1]}
+
+\newenvironment{exercise}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{Exercise #1}
+		
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+  \qed{}
+  \end{list}
+}
+
+\newenvironment{exercise*}[1]
+{
+	{
+		\Large
+		\color{\acolor}
+		\addtolength\leftskip{-2em}
+		\textbf{#1}
+	
+	}
+	\begin{list}{}
+	{
+		\setlength\leftmargin{1em}
+		\setlength\rightmargin{0em}
+		\setlength\labelwidth{2em}
+		\setlength\itemsep{0em}
+		\setlength\parsep{0.5em}
+		\setlength\baselineskip{1.25em}
+	}
+}
+{
+	\end{list}
+}
+
+\begin{document}
+
+\title{\Huge Topology Independent Study, Week 2}
+\author{Brendan Murphy \ \textemdash\ \ 2019}
+\date{\vspace{-7ex}}
+
+\posttitle{\par\end{center}}\maketitle
+
+\begin{exercise}{1}
+  \question{} Is $\Q$ locally compact?
+  \answer
+
+\end{exercise}
+
+\end{document}
